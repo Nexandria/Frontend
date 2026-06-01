@@ -43,7 +43,7 @@ export const routes: AppRoute[] = [
     access: { type: 'guest-only', redirectTo: '/home' },
   },
   {
-    path: '/recovery-password',
+    path: '/recovery',
     element: lazy(() => import('@/pages/auth/Recovery')),
     access: { type: 'guest-only', redirectTo: '/home' },
   },
