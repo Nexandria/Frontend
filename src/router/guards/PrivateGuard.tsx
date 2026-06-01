@@ -1,4 +1,4 @@
-import { Navigate, Outlet } from 'react-router-dom'
+import { Navigate, Outlet, useLocation } from 'react-router'
 import { useAuth, type Role } from '@/context/auth.context'
 
 interface Props {
@@ -12,7 +12,8 @@ interface Props {
 
 /**
  * Blocks access when the user is NOT authenticated, or lacks the required role.
- * `roles` accepts multiple values — any matching role grants access.
+ * When redirecting to login, preserves the attempted location in `state.from`
+ * so the login page can navigate back after a successful sign-in.
  */
 export function PrivateGuard({
   roles,
@@ -20,9 +21,10 @@ export function PrivateGuard({
   unauthorizedTo = '/unauthorized',
 }: Props) {
   const { user, isLoading } = useAuth()
+  const location = useLocation()
 
   if (isLoading) return null
-  if (!user) return <Navigate to={redirectTo} replace />
+  if (!user) return <Navigate to={redirectTo} state={{ from: location }} replace />
   if (roles && !roles.includes(user.role)) return <Navigate to={unauthorizedTo} replace />
   return <Outlet />
 }

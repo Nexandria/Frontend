@@ -1,81 +1,71 @@
-import { lazy, type ComponentType } from 'react'
-import type { Role } from '@/context/auth.context'
+import { lazy } from 'react'
+import { Routes, Route } from 'react-router'
+import { GuestGuard } from './guards/GuestGuard'
+import { PrivateGuard } from './guards/PrivateGuard'
+import { RoleRouter } from './guards/RoleRouter'
 
-// ─── Access types ────────────────────────────────────────────────────────────
+// ─── Lazy pages ───────────────────────────────────────────────────────────────
 
-export type RouteAccess =
-  /** Visible to everyone, with or without session. */
-  | { type: 'public' }
-  /** Only accessible when NOT logged in (e.g. /login, /register). */
-  | { type: 'guest-only'; redirectTo?: string }
-  /** Requires authentication. Optionally restricted to specific roles.
-   *  Pass multiple roles to share the route across them (e.g. ['ADMIN', 'USER']). */
-  | { type: 'private'; roles?: Role[]; unauthorizedTo?: string }
+// Públicas
+const Landing  = lazy(() => import('@/pages/landing/Landing'))
+const NotFound = lazy(() => import('@/pages/NotFound'))
 
-export interface AppRoute {
-  path: string
-  /** Single component for all roles. Required when `roleElement` is absent. */
-  element?: ComponentType
-  /** Per-role lazy components. Takes precedence over `element` when present. */
-  roleElement?: Partial<Record<Role, ComponentType>>
-  access: RouteAccess
+// Solo invitados
+const Login    = lazy(() => import('@/pages/auth/Login'))
+const Signup   = lazy(() => import('@/pages/auth/Signup'))
+const Recovery = lazy(() => import('@/pages/auth/Recovery'))
+
+// Configuración (por rol)
+const UserSettings  = lazy(() => import('@/pages/settings/UserSettings'))
+const AdminSettings = lazy(() => import('@/pages/settings/AdminSettings'))
+
+// ─── Route tree ───────────────────────────────────────────────────────────────
+
+export function AppRoutes() {
+  return (
+    <Routes>
+
+      {/* ── Públicas ──────────────────────────────────────────────────────── */}
+      <Route path="/" element={<Landing />} />
+
+      {/* ── Solo invitados (redirige a /home si ya tiene sesión) ───────────── */}
+      <Route element={<GuestGuard redirectTo="/home" />}>
+        <Route path="/login"    element={<Login />} />
+        <Route path="/signup"   element={<Signup />} />
+        <Route path="/recovery" element={<Recovery />} />
+      </Route>
+
+      {/* ── Privadas: cualquier usuario autenticado ────────────────────────── */}
+      <Route element={<PrivateGuard />}>
+        {/* <Route path="/home" element={<Home />} /> */}
+
+        {/* Configuración: página diferente según rol */}
+        <Route
+          path="/settings"
+          element={
+            <RoleRouter
+              pages={{
+                USER:  <UserSettings />,
+                ADMIN: <AdminSettings />,
+              }}
+            />
+          }
+        />
+      </Route>
+
+      {/* ── Privadas: solo ADMIN ───────────────────────────────────────────── */}
+      {/* <Route element={<PrivateGuard roles={['ADMIN']} />}>
+        <Route path="/admin" element={<Admin />} />
+      </Route> */}
+
+      {/* ── Privadas: compartidas entre roles ─────────────────────────────── */}
+      {/* <Route element={<PrivateGuard roles={['ADMIN', 'USER']} />}>
+        <Route path="/dashboard" element={<Dashboard />} />
+      </Route> */}
+
+      {/* ── 404 ───────────────────────────────────────────────────────────── */}
+      <Route path="*" element={<NotFound />} />
+
+    </Routes>
+  )
 }
-
-// ─── Configuración de Rutas ───────────────────────────────────────────────────────
-
-export const routes: AppRoute[] = [
-  // ── Publicas ──────────────────────────────────────────────────────────────────
-  {
-    path: '/',
-    element: lazy(() => import('@/pages/landing/Landing')),
-    access: { type: 'public' },
-  },
-
-  // ── Solo para invitados (sin sesión) (redirige a '/' si ya ha iniciado sesión) ─────────────────────
-  {
-    path: '/login',
-    element: lazy(() => import('@/pages/auth/Login')),
-    access: { type: 'guest-only', redirectTo: '/home' },
-  },
-  {
-    path: '/signup',
-    element: lazy(() => import('@/pages/auth/Signup')),
-    access: { type: 'guest-only', redirectTo: '/home' },
-  },
-  {
-    path: '/recovery',
-    element: lazy(() => import('@/pages/auth/Recovery')),
-    access: { type: 'guest-only', redirectTo: '/home' },
-  },
-
-  // ── Privadas: cualquier usuario autenticado ─────────────────────────────────────────
-  // {
-  //   path: '/home',
-  //   element: lazy(() => import('@/features/home/pages/Home')),
-  //   access: { type: 'private' },
-  // },
-
-  // ── Privadas: configuración según rol ────────────────────────────────────────
-  {
-    path: '/settings',
-    roleElement: {
-      USER: lazy(() => import('@/pages/settings/UserSettings')),
-      ADMIN: lazy(() => import('@/pages/settings/AdminSettings')),
-    },
-    access: { type: 'private' },
-  },
-
-  // ── Privadas: compartidas entre ROLES, entonces para ello lista ───────────────────────────────────
-  // {
-  //   path: '/dashboard',
-  //   element: lazy(() => import('@/features/dashboard/pages/Dashboard')),
-  //   access: { type: 'private', roles: ['ADMIN', 'USER'] },
-  // },
-
-  // ── Privadas: solo ADMIN ───────────────────────────────────────────────────────
-  // {
-  //   path: '/admin',
-  //   element: lazy(() => import('@/features/admin/pages/Admin')),
-  //   access: { type: 'private', roles: ['ADMIN'] },
-  // },
-]
