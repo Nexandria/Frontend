@@ -26,11 +26,25 @@ const AuthContext = createContext<AuthContextValue | null>(null)
 const TOKEN_KEY = 'auth_token'
 const USER_KEY = 'auth_user'
 
+// ─── DEV_OVERRIDE ─────────────────────────────────────────────────────────────
+// Set VITE_DEV_ROLE=USER or VITE_DEV_ROLE=ADMIN to bypass real auth in dev.
+const DEV_ROLE = import.meta.env.VITE_DEV_ROLE as Role | undefined
+
+const DEV_USER: AuthUser | null =
+  import.meta.env.DEV && DEV_ROLE
+    ? { id: 'dev', email: 'dev@local', role: DEV_ROLE }
+    : null
+
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [user, setUser] = useState<AuthUser | null>(null)
   const [isLoading, setIsLoading] = useState(true)
 
   useEffect(() => {
+    if (DEV_USER) {
+      setUser(DEV_USER)
+      setIsLoading(false)
+      return
+    }
     try {
       const stored = localStorage.getItem(USER_KEY)
       if (stored) setUser(JSON.parse(stored) as AuthUser)

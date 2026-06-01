@@ -1,5 +1,5 @@
 import { useState, type ChangeEvent } from 'react'
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router'
 import { AuthLayout } from '@/layouts/AuthLayout'
 import { authClient } from '@/lib/auth-client'
 
