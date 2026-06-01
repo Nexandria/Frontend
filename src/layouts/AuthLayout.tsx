@@ -1,5 +1,7 @@
 import type { ReactNode } from 'react'
 
+import Logo from '@/assets/logo.svg?react'
+
 interface AuthLayoutProps {
   children: ReactNode
   title: string
@@ -11,11 +13,8 @@ export function AuthLayout({ children, title, subtitle }: AuthLayoutProps) {
     <div className="min-h-screen bg-[var(--bg)] flex items-center justify-center px-4 py-12">
       <div className="w-full max-w-[420px]">
         {/* Logo */}
-        <div className="flex items-center gap-2.5 mb-8">
-          <div className="w-7 h-7 rounded-[6px] bg-[var(--ink)] text-[var(--bg)] grid place-items-center font-['Instrument_Serif'] text-[20px]">
-            N
-          </div>
-          <span className="text-[18px] tracking-tight text-[var(--ink)]">Nexandría</span>
+        <div className="flex items-center justify-center gap-2.5 mb-8">
+          <Logo className="text-8xl text-[var(--ink)]" />
         </div>
 
         {/* Header */}
