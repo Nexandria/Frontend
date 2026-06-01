@@ -1,9 +1,22 @@
-import { createBrowserRouter, RouterProvider, Outlet } from 'react-router-dom'
+import { createBrowserRouter, RouterProvider, Outlet, Navigate } from 'react-router-dom'
 import { Suspense } from 'react'
 import { GuestGuard } from './guards/GuestGuard'
 import { PrivateGuard } from './guards/PrivateGuard'
 import { routes, type AppRoute, type RouteAccess } from './routes.config'
-import type { Role } from '@/context/auth.context'
+import { useAuth, type Role } from '@/context/auth.context'
+
+// ─── Role-based element renderer ─────────────────────────────────────────────
+
+function RoleElementRenderer({
+  roleElement,
+}: {
+  roleElement: Partial<Record<Role, React.ComponentType>>
+}) {
+  const { user } = useAuth()
+  if (!user) return null
+  const El = roleElement[user.role]
+  return El ? <El /> : <Navigate to="/unauthorized" replace />
+}
 
 // ─── Internal grouping ────────────────────────────────────────────────────────
 // Routes are defined flat (one entry per path) but grouped here by their
@@ -37,7 +50,9 @@ function buildRouteObjects(groups: GuardedGroup[]) {
   return groups.flatMap(({ access, routes: groupRoutes }) => {
     const children = groupRoutes.map(r => ({
       path: r.path,
-      element: <r.element />,
+      element: r.roleElement
+        ? <RoleElementRenderer roleElement={r.roleElement} />
+        : r.element ? <r.element /> : null,
     }))
 
     if (access.type === 'public') return children

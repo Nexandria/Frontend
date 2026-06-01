@@ -14,7 +14,10 @@ export type RouteAccess =
 
 export interface AppRoute {
   path: string
-  element: ComponentType
+  /** Single component for all roles. Required when `roleElement` is absent. */
+  element?: ComponentType
+  /** Per-role lazy components. Takes precedence over `element` when present. */
+  roleElement?: Partial<Record<Role, ComponentType>>
   access: RouteAccess
 }
 
@@ -32,17 +35,17 @@ export const routes: AppRoute[] = [
   {
     path: '/login',
     element: lazy(() => import('@/pages/auth/Login')),
-    access: { type: 'guest-only', redirectTo: '/' },
+    access: { type: 'guest-only', redirectTo: '/home' },
   },
   {
     path: '/signup',
     element: lazy(() => import('@/pages/auth/Signup')),
-    access: { type: 'guest-only', redirectTo: '/' },
+    access: { type: 'guest-only', redirectTo: '/home' },
   },
   {
     path: '/recovery-password',
     element: lazy(() => import('@/pages/auth/Recovery')),
-    access: { type: 'guest-only', redirectTo: '/' },
+    access: { type: 'guest-only', redirectTo: '/home' },
   },
 
   // ── Privadas: cualquier usuario autenticado ─────────────────────────────────────────
@@ -51,6 +54,16 @@ export const routes: AppRoute[] = [
   //   element: lazy(() => import('@/features/home/pages/Home')),
   //   access: { type: 'private' },
   // },
+
+  // ── Privadas: configuración según rol ────────────────────────────────────────
+  {
+    path: '/settings',
+    roleElement: {
+      USER: lazy(() => import('@/pages/settings/UserSettings')),
+      ADMIN: lazy(() => import('@/pages/settings/AdminSettings')),
+    },
+    access: { type: 'private' },
+  },
 
   // ── Privadas: compartidas entre ROLES, entonces para ello lista ───────────────────────────────────
   // {
