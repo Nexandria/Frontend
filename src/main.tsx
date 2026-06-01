@@ -1,14 +1,14 @@
 import { StrictMode } from 'react'
 import { createRoot } from 'react-dom/client'
-import { BrowserRouter } from 'react-router-dom'
 import './index.css'
 
-import Landing from '@/features/landing/pages/Landing'
+import { AuthProvider } from '@/context/auth.context'
+import { AppRouter } from '@/router'
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
-    <BrowserRouter>
-      <Landing />
-    </BrowserRouter>
+    <AuthProvider>
+      <AppRouter />
+    </AuthProvider>
   </StrictMode>,
 )
