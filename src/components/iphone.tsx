@@ -41,7 +41,7 @@ export function Iphone({
 
   return (
     <div
-      className={`relative inline-block w-full align-middle leading-none ${className ?? ""}`}
+      className={`relative inline-block w-full overflow-hidden align-middle leading-none ${className ?? ""}`}
       style={{
         aspectRatio: `${PHONE_WIDTH}/${PHONE_HEIGHT}`,
         ...style,
@@ -151,17 +151,22 @@ export function Iphone({
           mask={hasMedia ? "url(#screenPunch)" : undefined}
         />
 
+        {/* Dynamic island — pill + camera ring + lens all use near-black so they
+            contrast against the screen content in both light and dark mode.
+            The previous fill-[#F5F5F5] was nearly indistinguishable from the
+            cream content background (#F6F2E9), and fill-[#262626] blended into
+            the dark content background (#241E18). */}
         <path
           d="M154 48.5C154 38.2827 162.283 30 172.5 30H259.5C269.717 30 278 38.2827 278 48.5C278 58.7173 269.717 67 259.5 67H172.5C162.283 67 154 58.7173 154 48.5Z"
-          className="fill-[#F5F5F5] dark:fill-[#262626]"
+          className="fill-[#111111]"
         />
         <path
           d="M249 48.5C249 42.701 253.701 38 259.5 38C265.299 38 270 42.701 270 48.5C270 54.299 265.299 59 259.5 59C253.701 59 249 54.299 249 48.5Z"
-          className="fill-[#F5F5F5] dark:fill-[#262626]"
+          className="fill-[#111111]"
         />
         <path
           d="M254 48.5C254 45.4624 256.462 43 259.5 43C262.538 43 265 45.4624 265 48.5C265 51.5376 262.538 54 259.5 54C256.462 54 254 51.5376 254 48.5Z"
-          className="fill-[#E5E5E5] dark:fill-[#404040]"
+          className="fill-[#2A2A2A]"
         />
 
         <defs>

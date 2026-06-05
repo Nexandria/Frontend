@@ -23,10 +23,10 @@ export function NavBar() {
         </div>
 
         <div className="flex gap-2.5">
-          <button className="h-[38px] px-4 rounded-full border border-[var(--line-strong)] bg-transparent text-[var(--ink)] text-[13.5px] font-medium cursor-pointer hover:bg-[var(--ink)] hover:text-[var(--bg-2)] transition-colors">
+          <button className="h-[38px] px-5 rounded-full border border-[var(--line-strong)] bg-transparent text-[var(--ink)] text-[13.5px] font-medium cursor-pointer transition-all duration-200 hover:bg-[var(--ink)] hover:text-[var(--bg-2)] hover:shadow-md hover:scale-[1.03] active:scale-[0.97]">
             Iniciar sesión
           </button>
-          <button className="h-[38px] px-4 rounded-full bg-[var(--ink)] text-[var(--bg-2)] text-[13.5px] font-medium cursor-pointer hover:bg-[var(--accent)] transition-colors">
+          <button className="h-[38px] px-5 rounded-full bg-[var(--ink)] text-[var(--bg-2)] text-[13.5px] font-medium cursor-pointer shadow-sm transition-all duration-200 hover:bg-[var(--accent)] hover:shadow-lg hover:scale-[1.04] active:scale-[0.97]">
             Descargar app
           </button>
         </div>

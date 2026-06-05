@@ -103,13 +103,8 @@ export function Hero() {
   return (
     <section className="relative pt-16 pb-0">
       <div className="max-w-[1320px] mx-auto px-10 flex flex-col items-center">
-        <div className="inline-flex items-center gap-2 px-3 py-1.5 rounded-full bg-[var(--card)] border border-[var(--line)] text-[11.5px] tracking-[0.14em] uppercase text-[var(--ink-2)] opacity-70 dark:opacity-90">
-          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
-          Plataforma open-source · Red de bibliotecas
-        </div>
-
         <h1
-          className="font-['Instrument_Serif'] font-normal text-center w-full mt-5 leading-[0.96] tracking-[-0.025em] text-[var(--ink)] text-[clamp(64px,7.6vw,124px)]"
+          className="font-['Instrument_Serif'] font-normal text-center w-full leading-[0.96] tracking-[-0.025em] text-[var(--ink)] text-[clamp(64px,7.6vw,124px)]"
         >
           Tu próximo libro,<br />
           <span className="text-[rgba(26,22,18,0.35)] dark:text-[rgba(246,242,233,0.35)]">a una</span>{' '}
@@ -119,6 +114,18 @@ export function Hero() {
         <p className="max-w-[560px] text-center text-[var(--ink-2)] text-[16.5px] leading-[1.55] mt-5">
           Encontrá cualquier libro de la red, reservalo desde el celular y retiralo en la sede más cercana. Sin filas, sin papeles, sin esperas — solo vos y tu próxima lectura.
         </p>
+
+        {/*
+          Badge ubicado DEBAJO del título y subtítulo.
+          Decisión: colocarlo encima del H1 interrumpía la jerarquía visual —
+          el ojo leía metadata antes que el mensaje principal. Aquí actúa como
+          cierre informativo de la sección de texto, como si firmara el claim,
+          antes de que empiece la zona del teléfono.
+        */}
+        <div className="inline-flex items-center gap-2 px-3.5 py-1.5 mt-6 rounded-full bg-[var(--card)] border border-[var(--line)] text-[11px] tracking-[0.14em] uppercase text-[var(--ink-2)] opacity-60 dark:opacity-80">
+          <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
+          Plataforma open-source · Red de bibliotecas
+        </div>
       </div>
 
       <div className="max-w-[1320px] mx-auto px-10">
@@ -147,30 +154,36 @@ export function Hero() {
             <span>Hasta 3 préstamos activos</span>
           </div>
 
-          {/* Phone */}
+          {/* Phone — el switcher vive dentro del área de pantalla como overlay */}
           <div className="absolute left-1/2 -translate-x-1/2 top-0 w-[340px] rounded-[54px] shadow-[0_0_0_12px_#1F1A14,0_60px_100px_-40px_rgba(26,22,18,0.45),0_30px_60px_-30px_rgba(139,58,47,0.25)]">
             <Iphone>
-              <div className="w-full h-full bg-[var(--bg-2)]" key={active}>
-                {SCREENS[active]}
+              {/* relative para que el switcher se ancle al bottom del área de pantalla */}
+              <div className="relative w-full h-full bg-[var(--bg-2)]">
+                {/* key en el contenedor de pantalla, no en el switcher, para que
+                    la barra no se desmonte al cambiar de vista */}
+                <div key={active} className="w-full h-full">
+                  {SCREENS[active]}
+                </div>
+
+                {/* Barra de navegación — absolute bottom-0 dentro del contenedor
+                    relative, completamente dentro del marco del iPhone */}
+                <div className="absolute bottom-2 left-2 right-2 flex gap-1 bg-[var(--card)] border border-[var(--line)] rounded-full p-1 z-10">
+                  {SCREEN_LABELS.map(([key, label]) => (
+                    <button
+                      key={key}
+                      onClick={() => setActive(key)}
+                      className={`flex-1 border-0 py-1.5 rounded-full text-[10px] font-medium cursor-pointer transition-colors ${
+                        active === key
+                          ? 'bg-[var(--ink)] text-[var(--bg-2)]'
+                          : 'bg-transparent text-[var(--ink-2)]'
+                      }`}
+                    >
+                      {label}
+                    </button>
+                  ))}
+                </div>
               </div>
             </Iphone>
-          </div>
-
-          {/* Screen switcher */}
-          <div className="absolute bottom-[-32px] left-1/2 -translate-x-1/2 flex gap-1.5 bg-[var(--card)] border border-[var(--line)] rounded-full p-1.5">
-            {SCREEN_LABELS.map(([key, label]) => (
-              <button
-                key={key}
-                onClick={() => setActive(key)}
-                className={`border-0 px-3.5 py-1.5 rounded-full text-[12px] font-medium cursor-pointer transition-colors ${
-                  active === key
-                    ? 'bg-[var(--ink)] text-[var(--bg-2)]'
-                    : 'bg-transparent text-[var(--ink-2)]'
-                }`}
-              >
-                {label}
-              </button>
-            ))}
           </div>
         </div>
       </div>

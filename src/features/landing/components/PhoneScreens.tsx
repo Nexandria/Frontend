@@ -20,7 +20,7 @@ export function HomeScreen() {
   return (
     <>
       <StatusBar />
-      <div className="flex flex-col px-4 pt-4 pb-4 h-[calc(100%-36px)]">
+      <div className="flex flex-col px-4 pt-4 pb-14 h-[calc(100%-36px)]">
         <div className="font-['Instrument_Serif'] text-[24px] leading-[1.05] tracking-[-0.02em]">
           <span className="block font-['Geist'] text-[11px] text-[var(--muted)] tracking-[0.02em] uppercase mb-0.5">Hola,</span>
           Martín
@@ -73,7 +73,7 @@ export function MapScreen() {
   return (
     <>
       <StatusBar />
-      <div className="flex flex-col px-4 pt-3 pb-4 h-[calc(100%-36px)]">
+      <div className="flex flex-col px-4 pt-3 pb-14 h-[calc(100%-36px)]">
         <div className="flex justify-between items-center">
           <div className="font-['Instrument_Serif'] text-[20px]">Sedes de la red</div>
           <div className="text-[11px] text-[var(--muted)]">14 cerca</div>
@@ -107,7 +107,7 @@ export function QRScreen() {
   return (
     <>
       <StatusBar />
-      <div className="flex flex-col items-center justify-center px-4 h-[calc(100%-36px)]">
+      <div className="flex flex-col items-center justify-center px-4 pb-14 h-[calc(100%-36px)]">
         <div className="text-center mt-2">
           <div className="text-[10px] tracking-[0.14em] uppercase text-[var(--muted)]">Mi identidad</div>
           <div className="font-['Instrument_Serif'] text-[22px] mt-1.5">Martín Acosta</div>
@@ -139,7 +139,7 @@ export function DiscoverScreen() {
   return (
     <>
       <StatusBar />
-      <div className="flex flex-col px-4 pt-3 pb-4 h-[calc(100%-36px)]">
+      <div className="flex flex-col px-4 pt-3 pb-14 h-[calc(100%-36px)]">
         <div className="flex justify-between items-baseline">
           <div className="font-['Instrument_Serif'] text-[22px]">Descubrir</div>
           <span className="text-[11px] text-[var(--muted)]">Para vos</span>
