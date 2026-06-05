@@ -7,23 +7,47 @@
 
 @custom-variant dark (&:is(.dark *));
 
-@theme {}
+/*
+  Design tokens → Tailwind utility classes.
+  --color-* names generate bg-*, text-*, border-* etc.
+  --animate-* names generate animate-* utilities.
+  The color tokens forward to CSS variables defined below so dark mode
+  works automatically when .dark overrides those variables.
+*/
+@theme {
+  /* Brand color tokens */
+  --color-bg: var(--bg);
+  --color-bg-2: var(--bg-2);
+  --color-ink: var(--ink);
+  --color-ink-2: var(--ink-2);
+  --color-gold: var(--gold);
+  --color-ok: var(--ok);
 
+  /* Animation tokens — replaces the custom .animate-* classes */
+  --animate-floaty: floaty 7s ease-in-out infinite;
+  --animate-floaty-2: floaty 6s ease-in-out infinite 1.5s;
+  --animate-floaty-3: floaty 8s ease-in-out infinite 3s;
+  --animate-marquee: marquee 30s linear infinite;
+}
+
+/* Brand CSS variables — used directly via var() in components */
 :root {
   --bg: #EFEAE0;
   --bg-2: #F6F2E9;
-  --card: oklch(1 0 0);
   --ink: #1A1612;
   --ink-2: #3A3128;
-  --muted: oklch(0.97 0 0);
   --line: rgba(26, 22, 18, 0.10);
   --line-strong: rgba(26, 22, 18, 0.18);
-  --accent: oklch(0.97 0 0);
+  /* --accent is the brand terracotta (fixes previous near-white value) */
+  --accent: #B85842;
   --accent-2: #B85842;
   --gold: #C9A35A;
   --ok: #4F6F4A;
+
+  /* shadcn/ui tokens */
   --background: oklch(1 0 0);
   --foreground: oklch(0.145 0 0);
+  --card: oklch(1 0 0);
   --card-foreground: oklch(0.145 0 0);
   --popover: oklch(1 0 0);
   --popover-foreground: oklch(0.145 0 0);
@@ -31,6 +55,7 @@
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(0.97 0 0);
   --secondary-foreground: oklch(0.205 0 0);
+  --muted: oklch(0.97 0 0);
   --muted-foreground: oklch(0.556 0 0);
   --accent-foreground: oklch(0.205 0 0);
   --destructive: oklch(0.577 0.245 27.325);
@@ -53,18 +78,7 @@
   --sidebar-ring: oklch(0.708 0 0);
 }
 
-*, *::before, *::after { box-sizing: border-box; }
-
-html, body {
-  margin: 0;
-  padding: 0;
-  background: var(--bg);
-  color: var(--ink);
-  font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  overflow-x: hidden;
-}
-
+/* Keyframes used by @theme animation tokens above */
 @keyframes floaty {
   0%, 100% { transform: translateY(0); }
   50% { transform: translateY(-6px); }
@@ -74,11 +88,6 @@ html, body {
   from { transform: translateX(0); }
   to { transform: translateX(-100%); }
 }
-
-.animate-floaty { animation: floaty 7s ease-in-out infinite; }
-.animate-floaty-2 { animation: floaty 6s ease-in-out infinite 1.5s; }
-.animate-floaty-3 { animation: floaty 8s ease-in-out infinite 3s; }
-.animate-marquee { animation: marquee 30s linear infinite; }
 
 @theme inline {
   --font-heading: var(--font-mono);
@@ -124,6 +133,17 @@ html, body {
 }
 
 .dark {
+  /* Brand dark mode — inverts background and text for contrast */
+  --bg: #1C1814;
+  --bg-2: #241E18;
+  --ink: #F6F2E9;
+  --ink-2: #C8BFB0;
+  --line: rgba(246, 242, 233, 0.10);
+  --line-strong: rgba(246, 242, 233, 0.18);
+  --accent: #D4704E;
+  --accent-2: #D4704E;
+
+  /* shadcn/ui dark tokens */
   --background: oklch(0.145 0 0);
   --foreground: oklch(0.985 0 0);
   --card: oklch(0.205 0 0);
@@ -136,7 +156,6 @@ html, body {
   --secondary-foreground: oklch(0.985 0 0);
   --muted: oklch(0.269 0 0);
   --muted-foreground: oklch(0.708 0 0);
-  --accent: oklch(0.269 0 0);
   --accent-foreground: oklch(0.985 0 0);
   --destructive: oklch(0.704 0.191 22.216);
   --border: oklch(1 0 0 / 10%);
@@ -158,13 +177,21 @@ html, body {
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
+  *, *::before, *::after {
+    box-sizing: border-box;
   }
   html {
     @apply font-mono;
+    overflow-x: hidden;
+    -webkit-font-smoothing: antialiased;
+  }
+  body {
+    @apply bg-background text-foreground;
+    font-family: 'Geist', ui-sans-serif, system-ui, sans-serif;
+    margin: 0;
+    padding: 0;
+  }
+  * {
+    @apply border-border outline-ring/50;
   }
 }
