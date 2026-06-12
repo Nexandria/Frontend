@@ -60,6 +60,7 @@ export default function Signup() {
       email: form.email,
       password: form.password,
       name: form.username,
+      username: form.username,
       callbackURL: `${window.location.origin}/home`,
     })
     setIsLoading(false)

@@ -1,30 +1,23 @@
-import {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  type ReactNode,
-} from 'react'
+import { createContext, useContext, type ReactNode } from 'react'
+import { authClient } from '@/lib/auth-client'
 
 export type Role = 'USER' | 'ADMIN'
 
 export interface AuthUser {
   id: string
   email: string
+  name: string
   role: Role
+  emailVerified: boolean
 }
 
 interface AuthContextValue {
   user: AuthUser | null
   isLoading: boolean
-  login: (user: AuthUser, token: string) => void
-  logout: () => void
+  logout: () => Promise<void>
 }
 
 const AuthContext = createContext<AuthContextValue | null>(null)
-
-const TOKEN_KEY = 'auth_token'
-const USER_KEY = 'auth_user'
 
 // ─── DEV_OVERRIDE ─────────────────────────────────────────────────────────────
 // Set VITE_DEV_ROLE=USER or VITE_DEV_ROLE=ADMIN to bypass real auth in dev.
@@ -32,44 +25,32 @@ const DEV_ROLE = import.meta.env.VITE_DEV_ROLE as Role | undefined
 
 const DEV_USER: AuthUser | null =
   import.meta.env.DEV && DEV_ROLE
-    ? { id: 'dev', email: 'dev@local', role: DEV_ROLE }
+    ? { id: 'dev', email: 'dev@local', name: 'Dev', role: DEV_ROLE, emailVerified: true }
     : null
 
 export function AuthProvider({ children }: { children: ReactNode }) {
-  const [user, setUser] = useState<AuthUser | null>(null)
-  const [isLoading, setIsLoading] = useState(true)
+  // Better Auth manages the session via HttpOnly cookies — no localStorage needed.
+  // useSession() re-validates on mount and keeps state in sync with the server.
+  const { data: session, isPending } = authClient.useSession()
 
-  useEffect(() => {
-    if (DEV_USER) {
-      setUser(DEV_USER)
-      setIsLoading(false)
-      return
-    }
-    try {
-      const stored = localStorage.getItem(USER_KEY)
-      if (stored) setUser(JSON.parse(stored) as AuthUser)
-    } catch {
-      localStorage.removeItem(USER_KEY)
-      localStorage.removeItem(TOKEN_KEY)
-    } finally {
-      setIsLoading(false)
-    }
-  }, [])
+  const isLoading = DEV_USER ? false : isPending
 
-  function login(newUser: AuthUser, token: string) {
-    localStorage.setItem(TOKEN_KEY, token)
-    localStorage.setItem(USER_KEY, JSON.stringify(newUser))
-    setUser(newUser)
-  }
+  const user: AuthUser | null = DEV_USER ?? (session?.user
+    ? {
+        id: session.user.id,
+        email: session.user.email,
+        name: session.user.name,
+        role: ((session.user as { role?: string }).role as Role) ?? 'USER',
+        emailVerified: session.user.emailVerified,
+      }
+    : null)
 
-  function logout() {
-    localStorage.removeItem(TOKEN_KEY)
-    localStorage.removeItem(USER_KEY)
-    setUser(null)
+  async function logout() {
+    await authClient.signOut()
   }
 
   return (
-    <AuthContext.Provider value={{ user, isLoading, login, logout }}>
+    <AuthContext.Provider value={{ user, isLoading, logout }}>
       {children}
     </AuthContext.Provider>
   )

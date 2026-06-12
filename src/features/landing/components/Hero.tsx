@@ -20,8 +20,8 @@ const SCREEN_LABELS: [Screen, string][] = [
 
 const SPEC_CARDS_LEFT = [
   {
-    title: '142,800+ libros',
-    sub: 'Buscá en toda la red',
+    title: 'Variedad de libros',
+    sub: '-',
     posClass: 'top-[30px] left-[20px]',
     delayClass: '[animation-delay:0s]',
     iconBgClass: 'bg-[var(--ink)]',
@@ -29,8 +29,8 @@ const SPEC_CARDS_LEFT = [
     icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M3 7h18M3 12h18M3 17h18"/></svg>,
   },
   {
-    title: '15 / 30 / 60 días',
-    sub: 'Períodos configurables',
+    title: 'Notificaciones',
+    sub: '-',
     posClass: 'top-[280px] left-0',
     delayClass: '[animation-delay:1.5s]',
     iconBgClass: 'bg-[var(--bg)]',
@@ -38,8 +38,8 @@ const SPEC_CARDS_LEFT = [
     icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M3 10h18M7 4v4M17 4v4"/></svg>,
   },
   {
-    title: 'Hábito de lectura',
-    sub: 'Puntos · Niveles · Rachas',
+    title: 'Busqueda',
+    sub: 'busqueda global',
     posClass: 'top-[520px] left-[30px]',
     delayClass: '[animation-delay:3s]',
     iconBgClass: 'bg-[var(--accent)]',
@@ -50,8 +50,8 @@ const SPEC_CARDS_LEFT = [
 
 const SPEC_CARDS_RIGHT = [
   {
-    title: 'La sede más cerca',
-    sub: 'Disponibilidad en tiempo real',
+    title: 'Categorias',
+    sub: '-',
     posClass: 'top-[30px] right-[20px]',
     delayClass: '[animation-delay:0.8s]',
     iconBgClass: 'bg-[var(--bg)]',
@@ -59,8 +59,8 @@ const SPEC_CARDS_RIGHT = [
     icon: <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18M9 21V9"/></svg>,
   },
   {
-    title: 'Reservá, retirá, leé',
-    sub: 'Todo desde tu teléfono',
+    title: 'QR personal',
+    sub: 'data del qr',
     posClass: 'top-[280px] right-0',
     delayClass: '[animation-delay:2.2s]',
     iconBgClass: 'bg-[var(--ink)]',
@@ -68,8 +68,8 @@ const SPEC_CARDS_RIGHT = [
     icon: <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/><rect x="3" y="14" width="7" height="7"/><path d="M14 14h3v3h-3zM18 18h3v3h-3z"/></svg>,
   },
   {
-    title: 'Compartí lecturas',
-    sub: 'Reseñas y foros entre lectores',
+    title: 'Foro',
+    sub: 'data del foro',
     posClass: 'top-[520px] right-[30px]',
     delayClass: '[animation-delay:4s]',
     iconBgClass: 'bg-[var(--bg)]',
@@ -112,7 +112,7 @@ export function Hero() {
         </h1>
 
         <p className="max-w-[560px] text-center text-[var(--ink-2)] text-[16.5px] leading-[1.55] mt-5">
-          Encontrá cualquier libro de la red, reservalo desde el celular y retiralo en la sede más cercana. Sin filas, sin papeles, sin esperas — solo vos y tu próxima lectura.
+          Encontrá cualquier libro de la red, reservalo desde el celular y retiralo en tu sede preferida. Sin filas, sin papeles, sin esperas = solo vos y tu próxima lectura.
         </p>
 
         {/*
@@ -124,7 +124,7 @@ export function Hero() {
         */}
         <div className="inline-flex items-center gap-2 px-3.5 py-1.5 mt-6 rounded-full bg-[var(--card)] border border-[var(--line)] text-[11px] tracking-[0.14em] uppercase text-[var(--ink-2)] opacity-60 dark:opacity-80">
           <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)]" />
-          Plataforma open-source · Red de bibliotecas
+          Red de bibliotecas de CABA
         </div>
       </div>
 
@@ -136,10 +136,10 @@ export function Hero() {
           {/* Left pills */}
           <div className="absolute animate-floaty-2 bg-[var(--card)] border border-[var(--line)] rounded-full px-3.5 py-2 flex items-center gap-2 text-[12.5px] font-medium text-[var(--ink)] top-[160px] left-[60px] shadow-[0_8px_24px_-12px_rgba(26,22,18,0.18)]">
             <span className="w-[18px] h-[18px] rounded-full bg-[var(--accent)]" />
-            <span>Devolución en cualquier sede</span>
+            <span>-</span>
           </div>
           <div className="absolute animate-floaty bg-[var(--ink)] text-[var(--bg-2)] rounded-full px-3.5 py-2 text-[12.5px] font-medium top-[420px] left-[80px]">
-            ★ Racha de 28 días
+            ★ Rachas
           </div>
 
           {/* Right floating cards */}
@@ -147,26 +147,21 @@ export function Hero() {
 
           {/* Right pills */}
           <div className="absolute animate-floaty-2 bg-[var(--accent)] text-white rounded-full px-3.5 py-2 text-[12.5px] font-medium top-[160px] right-[80px]">
-            Identidad DNI · QR personal
+            -
           </div>
           <div className="absolute animate-floaty-3 bg-[var(--card)] border border-[var(--line)] rounded-full px-3.5 py-2 flex items-center gap-2 text-[12.5px] font-medium text-[var(--ink)] top-[420px] right-[60px]">
             <span className="w-[18px] h-[18px] rounded-full bg-[var(--ok)]" />
-            <span>Hasta 3 préstamos activos</span>
+            <span>Hasta 3 préstamos</span>
           </div>
 
           {/* Phone — el switcher vive dentro del área de pantalla como overlay */}
-          <div className="absolute left-1/2 -translate-x-1/2 top-0 w-[340px] rounded-[54px] shadow-[0_0_0_12px_#1F1A14,0_60px_100px_-40px_rgba(26,22,18,0.45),0_30px_60px_-30px_rgba(139,58,47,0.25)]">
+          <div className="absolute left-1/2 -translate-x-1/2 top-0 w-[340px] rounded-[54px]">
             <Iphone>
-              {/* relative para que el switcher se ancle al bottom del área de pantalla */}
+              {/*
               <div className="relative w-full h-full bg-[var(--bg-2)]">
-                {/* key en el contenedor de pantalla, no en el switcher, para que
-                    la barra no se desmonte al cambiar de vista */}
                 <div key={active} className="w-full h-full">
                   {SCREENS[active]}
                 </div>
-
-                {/* Barra de navegación — absolute bottom-0 dentro del contenedor
-                    relative, completamente dentro del marco del iPhone */}
                 <div className="absolute bottom-2 left-2 right-2 flex gap-1 bg-[var(--card)] border border-[var(--line)] rounded-full p-1 z-10">
                   {SCREEN_LABELS.map(([key, label]) => (
                     <button
@@ -182,7 +177,7 @@ export function Hero() {
                     </button>
                   ))}
                 </div>
-              </div>
+              </div>*/}
             </Iphone>
           </div>
         </div>

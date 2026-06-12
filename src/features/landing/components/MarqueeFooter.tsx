@@ -11,10 +11,6 @@ export function Marquee() {
 }
 
 const FOOTER_LINKS = [
-  { title: 'Sistema', links: ['Multi-sede', 'Inventario', 'Préstamos', 'Identidad'] },
-  { title: 'Comunidad', links: ['Foro', 'Reseñas', 'Ranking', 'Rachas'] },
-  { title: 'Desarrolladores', links: ['GitHub', 'Documentación', 'API', 'Configuración'] },
-  { title: 'Red', links: ['Sumá tu sede', 'Mapa de la red', 'Términos', 'Contacto'] },
 ];
 
 export function Footer() {
@@ -25,7 +21,7 @@ export function Footer() {
           <div>
             <div className="font-['Instrument_Serif'] text-[40px] leading-none tracking-[-0.02em]">Nexandría</div>
             <p className="text-[rgba(246,242,233,0.6)] text-[13.5px] mt-2 max-w-[280px] leading-[1.5]">
-              Reconectando los libros con la comunidad. Plataforma open-source para redes de bibliotecas.
+              Conectando la red bibliotecaria con vos.
             </p>
           </div>
           {FOOTER_LINKS.map(col => (
@@ -39,8 +35,8 @@ export function Footer() {
         </div>
 
         <div className="mt-14 pt-6 border-t border-[rgba(246,242,233,0.1)] flex justify-between text-[12px] text-[rgba(246,242,233,0.5)]">
-          <div>© 2026 Nexandría · Licencia MIT · Hecho por y para la comunidad lectora.</div>
-          <div>v0.8.2 · Buenos Aires, AR</div>
+          <div>© 2026 Nexandría</div>
+          <div>Escuela Técnica N21 Fragata Libertad</div>
         </div>
       </div>
     </footer>
