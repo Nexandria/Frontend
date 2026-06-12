@@ -18,6 +18,7 @@ const Recovery = lazy(() => import('@/pages/auth/Recovery'))
 // Configuración (por rol)
 const UserSettings  = lazy(() => import('@/pages/settings/UserSettings'))
 const AdminSettings = lazy(() => import('@/pages/settings/AdminSettings'))
+const Home = lazy(() => import('@/pages/Home'))
 
 // ─── Route tree ───────────────────────────────────────────────────────────────
 
@@ -37,7 +38,7 @@ export function AppRoutes() {
 
       {/* ── Privadas: cualquier usuario autenticado ────────────────────────── */}
       <Route element={<PrivateGuard />}>
-        {/* <Route path="/home" element={<Home />} /> */}
+        <Route path="/home" element={<Home />} />
 
         {/* Configuración: página diferente según rol */}
         <Route
